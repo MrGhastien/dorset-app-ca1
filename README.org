@@ -27,11 +27,12 @@ On the left, you can click on the ~SSH Keys~ link to list all SSH keys of the us
 
 * Docs and comments
 There are comments inside :
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/ca1/settings.py][ca1/settings.py]], line 68
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/models.py][sshkbase/models.py]], lines 7, 24
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/filters.py][sshkbase/filters.py]], line 8
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/urls.py][sshkbase/urls.py]], line 9
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py][sshkbase/views.py]], lines 34, 113->142, 147->155, 159, 168
-+ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/index.html][templates/sshkbase/index.html]], lines 16, 33, 37, 42, 50
-+ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/userAdd.html][templates/sshkbase/userAdd.html]], line 29
-+ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/keyDetail.html][templates/sshkbase/keyDetail.html]], line 8
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/ca1/settings.py][ca1/settings.py]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/ca1/settings.py#L68-L69][68]]
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/models.py][sshkbase/models.py]], lines [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/models.py#L7-L8][7]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/models.py#L24-L27][24]]
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/filters.py][sshkbase/filters.py]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/filters.py#L6-L7][8]]
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/urls.py][sshkbase/urls.py]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/urls.py#L9-L12][9]]
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py][sshkbase/views.py]], lines [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L34-L37][34]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L113-L143][113]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L146-L156][147]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L159-L160][159]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L168][168]]
++ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/index.html][templates/sshkbase/index.html]], lines [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L16-L18][16]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L33-L34][33]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L37-L38][37]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L42-L43][42]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L50-L54][50]]
++ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/userAdd.html][templates/sshkbase/userAdd.html]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/userAdd.html#L29-L34][29]]
++ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/keyDetail.html][templates/sshkbase/keyDetail.html]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/keyDetail.html#L8-L9][8]]
+Click on line numbers to send you to the exact lines on Github !
