@@ -29,7 +29,7 @@
 
     <form action="{% url 'sshkbase:key-detail' sshkey.id %}" method="get">
         {% csrf_token %}
-        <h2>Are you sure you want to delete SSH key "{{ key.title }}" ?</h2>
+        <h2>Are you sure you want to delete SSH key "{{ sshkey.title }}" ?</h2>
         <h4>This cannot be undone.</h4>
 
         <div style="text-align: center;">

@@ -108,3 +108,15 @@ main {
 .form-group dt {
     margin: 0 0 6px;
 }
+
+input.form-box,
+textarea.form-box {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+}
+
+textarea.form-box {
+    width: 600px;
+    height: 150px;
+}

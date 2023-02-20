@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'sshkbase/index-style.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/detail-style.css' %}">
-    <link rel="stylesheet" href="{% static 'sshkbase/key-add-style.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/key-detail.css' %}">
 </head>
 <body>
 
@@ -63,7 +63,7 @@
                         <label for="key-title-box">Title</label>
                     </dt>
                     <dd>
-                        <input id="key-title-box" name="title" type="text">
+                        <input id="key-title-box" name="title" class="form-box" type="text">
                     </dd>
                 </dl>
                 <dl class="form-group">
@@ -71,7 +71,7 @@
                         <label for="key-box">Key</label>
                     </dt>
                     <dd>
-                    <textarea id="key-box" name="key" placeholder='SSH public key, begins with "ssh-rsa", "ssh-ed25519"'></textarea>
+                    <textarea id="key-box" name="key" class="form-box" placeholder='SSH public key, begins with "ssh-rsa", "ssh-ed25519"'></textarea>
 
                     </dd>
                 </dl>

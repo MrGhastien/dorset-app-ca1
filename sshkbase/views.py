@@ -180,7 +180,7 @@ def addKey(request, userNickname):
     if len(key) == 0 or str.isspace(key):
         return render(request, 'sshkbase/keyAdd.html', {
             'user': user,
-            'error_msg': "The key cannot be empty`"
+            'error_msg': "The key cannot be empty"
         })
     key = str.strip(key)
 
@@ -199,10 +199,18 @@ def addKey(request, userNickname):
 
 def updateKey(request, keyId):
     sshkey = get_object_or_404(SSHKey, pk=keyId)
+    permInt = sshkey.permissions
+    perms = dict()
+
+    for n in PERMISSION_NAMES:
+        perms[n] = bool(permInt & 1)
+        permInt >>= 1
     title = request.POST['title']
     if len(title) == 0 or str.isspace(title):
         return render(request, 'sshkbase/keyDetail.html', {
             'sshkey': sshkey,
+            'perms': perms,
+            'perm_labels': PERMISSION_LABELS,
             'error_msg': "You must specify a title for the key"
         })
     sshkey.title = str.strip(title)
@@ -210,7 +218,9 @@ def updateKey(request, keyId):
     if len(key) == 0 or str.isspace(key):
         return render(request, 'sshkbase/keyDetail.html', {
             'sshkey': sshkey,
-            'error_msg': "The key cannot be empty`"
+            'perms': perms,
+            'perm_labels': PERMISSION_LABELS,
+            'error_msg': "The key cannot be empty"
         })
     sshkey.key = str.strip(key)
     sshkey.permissions = 0
