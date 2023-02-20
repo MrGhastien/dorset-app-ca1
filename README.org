@@ -27,4 +27,11 @@ On the left, you can click on the ~SSH Keys~ link to list all SSH keys of the us
 
 * Docs and comments
 There are comments inside :
-+ ~
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/ca1/settings.py][ca1/settings.py]], line 68
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/models.py][sshkbase/models.py]], lines 7, 24
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/filters.py][sshkbase/filters.py]], line 8
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/urls.py][sshkbase/urls.py]], line 9
++ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py][sshkbase/views.py]], lines 34, 113->142, 147->155, 159, 168
++ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/index.html][templates/sshkbase/index.html]], lines 16, 33, 37, 42, 50
++ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/userAdd.html][templates/sshkbase/userAdd.html]], line 29
++ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/keyDetail.html][templates/sshkbase/keyDetail.html]], line 8
