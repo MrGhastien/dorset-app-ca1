@@ -1,0 +1,30 @@
+#+TITLE:DORSET BACKEND ASSESSMENT 1
+#+SUBTITLE: Django database with  CRUD functions
+
+* Things stored
+This application stores Users and SSHKeys.
+** Users
+Each user has :
++ a nickname, which is unique and contains only lowercase letters, digits, dashes and underscores. It is the primary key in the database.
+
+#+begin_src
+  abcdefghijklmnopqrstuvwxyz0123456789-_
+#+end_src
+
++ A full name, which can contain any character you want and is not necessarily unique.
++ A registration date, automatically added when registering a new user.
+** SSH keys
+SSH keys are used to connect *securely* to remote computers and servers. A SSH keys consists of :
++ A title, which can be any string with a max length of  200 characters,
++ The actual ssh public key, a string of at most 500 characters (no check to see if the key is a real and valid SSH key is performed)
++ An "add date", which keeps track of when the key was added (automatically added by the application)
++ An integer representing permissions. Each bit of this integer indicates if a permission is granted or not.
+
+* Use
+The main page is an index of all registered users in the database. The ~Register~ button in the top right corner is used to go to the registration form. For now, you can only put a nickname and a full name.
+You can click on the 'View details' link on each user to go to its detail page, where you can edit its information or delete it.
+On the left, you can click on the ~SSH Keys~ link to list all SSH keys of the user. You can add new ones with the ~Add key~ button on the top right, or see details of every existing key.
+
+* Docs and comments
+There are comments inside :
++ ~

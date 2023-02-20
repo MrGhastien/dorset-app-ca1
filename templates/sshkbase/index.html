@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/index-style.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
+</head>
+<body>
+
+<header>
+    Registered users
+    <!--Inside templates, we can tell django to use urls defined in urls.py
+        Here, the button is a link to the 'sshkbase:user-new' url (see urls.py)
+        next to the name of the url, we can add arguments (see list below)-->
+    <a href="{% url 'sshkbase:user-new' %}" class="button-link">
+        <button class="slide-button" id="new-user-button" style="--hovered-color: #f0f0f0">
+            <p>Register</p>
+            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M 12 2 L 12 22 M 2 12 L 22 12" stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+
+        </button>
+    </a>
+</header>
+<main>
+    <!--Django templates allows us to use logic inside HTML files.
+        Here we put the following HTML snippet for a list if 'userList' is defined.-->
+    {% if userList %}
+        <div class="list">
+        <!--For loops like this one make it possible to make lists for all entries in the database.
+            These are like python ones. the 'u' variable is usable inside this for loop.-->
+            {% for u in userList %}
+                <div class="line">
+                    <div class="user">
+                        <!--Double curly braces like this can insert text depending on template variables
+                            Here we insert the name and nickname of the current user-->
+                        <h1>{{ u.name }}</h1>
+                        <h3>@{{ u.nickname }}</h3>
+                    </div>
+                    <div>
+                        <p>{{ u.registerDate }}</p>
+                    </div>
+                    <!--Here we give the current user nickname to the url, so that the next page knows what user
+                        we are dealing with
+                        The left hand side of the '=' sign in the arguments must match the selector
+                        (<type:name>) in the url defined in urls.py. If the arguments are in the same order as the selectors,
+                        there is no need to add 'name=' before each argument.-->
+                    <a href="{% url 'sshkbase:user-detail' userNickname=u.nickname %}" class="button-link">
+                        <button class="slide-button">
+                            <p>View details</p>
+                            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round"
+                                      stroke-linecap="round"></path>
+                            </svg>
+
+                        </button>
+                    </a>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    {% else %}
+        No registered user available.
+    {% endif %}
+</main>
+
+</body>
+</html>

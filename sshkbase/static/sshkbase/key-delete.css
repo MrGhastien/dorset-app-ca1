@@ -1,0 +1,24 @@
+#cancel-button svg {
+    width: 12px;
+}
+
+#cancel-button:hover svg {
+    width: 12px;
+    transform: translateX(-4px);
+}
+
+#confirm-button {
+    --hovered-color: #fb4934;
+    --shadow-color: #fb49347f;
+}
+
+.login-box h4 {
+    margin-top: 10px;
+    font-weight: normal;
+    color: #404040;;
+}
+
+#back-to-key-detail-button-p::before,
+#back-to-key-detail-button-p::after {
+    content: "Back to key detail page"
+}

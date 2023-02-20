@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/register.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/key-delete.css' %}">
+</head>
+<body>
+
+<header>
+    <a href="{% url 'sshkbase:key-detail' sshkey.id %}" class="button-link">
+        <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0">
+            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+            <p id="back-to-key-detail-button-p">Back to key detail page</p>
+        </button>
+    </a>
+</header>
+
+<div class="login-box">
+
+    <form action="{% url 'sshkbase:key-detail' sshkey.id %}" method="get">
+        {% csrf_token %}
+        <h2>Are you sure you want to delete SSH key "{{ key.title }}" ?</h2>
+        <h4>This cannot be undone.</h4>
+
+        <div style="text-align: center;">
+            <a href="{% url 'sshkbase:key-detail' sshkey.id %}" class="button-link">
+                <button id="cancel-button" class="boxed-button" type="button">
+                    <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                         class="h-6 w-6"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
+                              stroke-linecap="round"></path>
+                    </svg>
+                    No, take me back !
+                </button>
+            </a>
+            <button id="confirm-button" class="boxed-button"
+                    formaction="{% url 'sshkbase:key-delete-do' sshkey.id %}"
+                    formmethod="post">
+                Yes, delete this key...
+            </button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

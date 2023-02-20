@@ -1,0 +1,32 @@
+button.slide-button.slide-reverse-button:hover svg {
+  transform: translateX(-4px);
+}
+
+button.slide-button.slide-reverse-button::after {
+  left: 100%;
+  direction: rtl;
+}
+
+button.slide-button.slide-reverse-button p::before {
+  direction: rtl;
+  left: 100%
+}
+
+button.slide-button.slide-reverse-button p::after {
+  direction: ltr;
+}
+
+button.slide-button.slide-reverse-button:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+button.slide-button.slide-reverse-button:hover p::before {
+  width: 100%;
+  left: 0;
+}
+
+button.slide-button.slide-reverse-button:hover p::after {
+  width: 0%;
+  left: 0%;
+}

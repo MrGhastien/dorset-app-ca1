@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/register.css' %}">
+</head>
+<body>
+
+<header>
+    <a href="{% url 'sshkbase:index' %}" class="button-link">
+        <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0">
+            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+            <p id="back-to-index-button-p">Back to index page</p>
+        </button>
+    </a>
+</header>
+
+<div class="login-box">
+
+    <!--Information is sent to the server with 'form' markers like this one, with 'method="post"'.
+                When clicking on any button inside the form, we get redirected to the url in 'action'.
+                The url is a special url, tells the server to process the POST request sent and redirect
+                us to another url immediately
+                For this particular form, see 'user-add' in views.py. In PyCharm, CTRL + LCLICK on
+                the 'action' value-->
+    <form action="{% url 'sshkbase:user-add' %}" method="post">
+        {% csrf_token %}
+        <div class="user-box">
+            <input id="nickname-box" required="required" name="nickname" type="text"{% if nickname_try %}
+                   value="{{ nickname_try }}" {% endif %}>
+            <label for="nickname-box">Nickname</label>
+        </div>
+        <div class="user-box">
+            <input id="name-box" required="required" name="full-name" type="text"{% if name_try %}
+                   value="{{ name_try }}" {% endif %}>
+            <label for="name-box">Full name</label>
+        </div>
+        {% if error_msg %}
+            <div class="error-msg">
+                {{ error_msg }}
+            </div>
+        {% endif %}
+        <div style="text-align: center;">
+            <button id="register-button">
+                Register
+            </button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+header {
+  display: flex;
+}
+
+.list {
+  padding: 3rem;
+}
+
+.line {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+  border-radius: 5px;
+  margin: 10px 0 10px 0;
+  padding: 10px;
+}
+
+.line:hover {
+  box-shadow: 0 0 0.8rem rgba(0.0, 0.0, 0.0, 0.2);
+}
+
+#new-user-button p::before,
+#new-user-button p::after {
+    content: "Register"
+}
+
+#new-user-button:hover svg {
+  transform: none;
+  width: 15px
+}
+
+#new-user-button svg {
+  width: 0px
+}

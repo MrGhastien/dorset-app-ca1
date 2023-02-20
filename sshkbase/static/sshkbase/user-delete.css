@@ -1,0 +1,23 @@
+#cancel-button {
+
+}
+
+#cancel-button svg {
+    width: 12px;
+}
+
+#cancel-button:hover svg {
+    width: 12px;
+    transform: translateX(-4px);
+}
+
+#confirm-button {
+    --hovered-color: #fb4934;
+    --shadow-color: #fb49347f;
+}
+
+.login-box h4 {
+    margin-top: 10px;
+    font-weight: normal;
+    color: #404040;;
+}

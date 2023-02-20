@@ -1,0 +1,87 @@
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: var(--main-bg);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: var(--font-color);
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid var(--font-color);
+  outline: none;
+  background: transparent;
+}
+
+.login-box .user-box label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: var(--font-color);
+  pointer-events: none;
+  transition: .25s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #bdb8b8;
+  font-size: 12px;
+}
+
+.login-box form button {
+  --hovered-color: #03f40f;
+  --shadow-color: #03f40f7f;
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: var(--font-color);
+  font-size: 16px;
+  text-decoration: none;
+  /*text-transform: uppercase;*/
+  overflow: hidden;
+  transition: .25s;
+  margin-top: 40px;
+  /*letter-spacing: 4px;*/
+  cursor: pointer;
+  border: 1px solid #909090;
+  border-radius: 5px;
+}
+
+.login-box button:hover {
+  background: var(--hovered-color);
+  color: var(--font-color);
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px var(--shadow-color);
+  border: 1px solid var(--hovered-color);
+}
+
+.login-box .error-msg {
+  text-align: center;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #fb4934;
+  background: #fb493410;
+}
+
+#back-to-index-button-p::before,
+#back-to-index-button-p::after {
+    content: "Back to index page"
+}

@@ -1,0 +1,12 @@
+.form-group {
+    margin: 15px 0;
+}
+
+.form-group dt {
+    margin: 0 0 6px;
+}
+
+#back-to-user-detail-button-p::before,
+#back-to-user-detail-button-p::after {
+    content: "Back to user page"
+}

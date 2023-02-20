@@ -1,0 +1,54 @@
+/* Deletion buttons */
+/*WARNING !! .class1.class2 isn't the same as .class1 .class2 !
+the first one targets elements which have both classes at the same tile (<div class="class1 class2">)
+the second one targets elements with class "class2" inside an element with class "class1"
+(<div class="class1">
+    <div class="class2"> <--- TARGETED
+    ...
+*/
+.del-button {
+    --primary-color: #f0f0f0;
+    --hovered-color: #fb4934;
+    --shadow-color: #fb49347f;
+    color: var(--font-color);
+    transition: 0.2s;
+    vertical-align: center;
+    border: 1px solid #909090;
+    border-radius: 5px;
+}
+
+.del-button:hover {
+    background: var(--hovered-color);
+    color: var(--font-color);
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px var(--shadow-color);
+    border: 1px solid var(--hovered-color);
+}
+
+.slide-button.del-button p {
+    color: var(--font-color);
+}
+
+.boxed-button.del-button p {
+    color: var(--font-color);
+}
+
+.boxed-button.del-button:hover p {
+    color: var(--font-color);
+}
+
+.slide-button.del-button p::before,
+.slide-button.del-button p::after {
+    content: "Delete";
+}
+
+.del-button:hover svg {
+    transform: none;
+    color: var(--font-color);
+    rotate: 90deg;
+}
+
+.del-button svg {
+    width: 12px;
+    transform: none;
+}

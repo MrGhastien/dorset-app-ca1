@@ -1,0 +1,110 @@
+header span {
+    color: #fe8019;
+}
+
+main {
+    padding: 32px;
+    background: var(--main-bg);
+    height: 100%;
+    width: 65%;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.headline {
+    margin-bottom: 24px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    display: grid;
+    border-radius: 6px;
+}
+
+.sidebar li:hover {
+    background: #ffffff;
+}
+
+.sidebar li a {
+    width: 100%;
+    padding: 6px 8px 6px 8px;
+}
+
+.sidebar li a {
+    color: #404040;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.flexbox-container {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+
+    grid-gap: var(--container-gutter);
+    grid-auto-flow: column;
+    grid-template-columns: auto 0 minmax(0, calc(100% - var(--sidebar-width) - var(--container-gutter)));
+}
+
+.flexbox-container > .sidebar {
+    grid-column: 1;
+    width: var(--sidebar-width);
+
+}
+
+.flexbox-container > .content-container {
+    grid-column: 2/span 2;
+}
+
+.content-container .headline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem 0 0;
+    vertical-align: center;
+}
+
+.headline > h2 {
+    font-size: 30px;
+}
+
+.headline > h3 {
+    color: #909090;
+}
+
+.list {
+    padding: 0 2rem 10px 0;
+}
+
+.solid {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #c0c0c0;
+}
+
+#back-to-index-button-p::before,
+#back-to-index-button-p::after {
+    content: "Back to index page"
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.buttons button + button {
+    margin-left: 20px;
+}
+
+.form-group {
+    margin: 15px 0;
+}
+
+.form-group dt {
+    margin: 0 0 6px;
+}

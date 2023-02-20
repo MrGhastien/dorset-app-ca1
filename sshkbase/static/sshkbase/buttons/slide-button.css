@@ -1,0 +1,89 @@
+button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+}
+
+button.slide-button {
+  --primary-color: #111;
+  --hovered-color: #0dbde5;
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  font-size: 20px;
+  gap: 0.5rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+button.slide-button p {
+  margin: 0;
+  position: relative;
+  font-size: 16px;
+  font-weight: bold;
+  color: #00000000;
+}
+
+button.slide-button::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.3s ease-out;
+}
+
+button.slide-button p::before {
+  position: absolute;
+/*   box-sizing: border-box; */
+  content: "View details";
+  width: 0;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  white-space: nowrap;
+  transition: 0.3s ease-out;
+}
+
+button.slide-button p::after {
+  position: absolute;
+/*   box-sizing: border-box; */
+  content: "View details";
+  width: 100%;
+  left: 0%;
+  color: var(--primary-color);
+  overflow: hidden;
+  white-space: nowrap;
+  transition: 0.3s ease-out;
+  direction: rtl;
+}
+
+button.slide-button:hover::after {
+  width: 100%;
+}
+
+button.slide-button:hover p::before {
+  width: 100%;
+}
+
+button.slide-button:hover p::after {
+  width: 0%;
+  left: 100%;
+}
+
+button.slide-button:hover svg {
+  transform: translateX(4px);
+  color: var(--hovered-color);
+  transition-delay: 0.2s;
+}
+
+button.slide-button svg {
+  color: var(--primary-color);
+  transition: 0.2s;
+  position: relative;
+  width: 15px;
+  transition-delay: 0s;
+}

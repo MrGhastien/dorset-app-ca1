@@ -1,0 +1,29 @@
+.boxed-button {
+    border: 3px solid var(--hovered-color);
+    border-radius: 10px;
+    padding: 6px;
+    position: relative;
+    display: flex;
+    font-weight: 600;
+    font-size: 15px;
+    gap: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+}
+
+.boxed-button p {
+    margin: 0;
+    position: relative;
+    font-size: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.boxed-button:hover p {
+    color: var(--hovered-color);
+}
+
+.boxed-button svg {
+    transition: 0.3s;
+}

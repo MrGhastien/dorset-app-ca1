@@ -1,0 +1,40 @@
+/* 'Add key' button */
+.add-button {
+    --primary-color: #f0f0f0;
+    --hovered-color: #03f40f;
+    --shadow-color: #03f40f7f;
+    color: var(--font-color);
+    transition: 0.2s;
+    vertical-align: center;
+    border: 1px solid #909090;
+    border-radius: 5px;
+}
+
+.add-button:hover {
+    background: var(--hovered-color);
+    color: var(--font-color);
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px var(--shadow-color);
+    border: 1px solid var(--hovered-color);
+}
+
+.boxed-button.add-button p {
+    color: var(--font-color);
+}
+
+.boxed-button.add-button:hover p {
+    color: var(--font-color);
+}
+
+.add-button:hover svg {
+    --primary-color: #111;
+    color: var(--primary-color);
+    rotate: 90deg;
+}
+
+.add-button svg {
+    width: 12px;
+    rotate: 0deg;
+    transition: 0.2s;
+    color: var(--font-color);
+}

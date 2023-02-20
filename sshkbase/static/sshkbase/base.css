@@ -1,0 +1,64 @@
+:root {
+    --sidebar-width: 296px;
+    --container-gutter: 24px;
+    --main-bg: #fafafa;
+    --header-bg: #cfcfcf;
+    --font-color: #222
+}
+
+* {
+  margin: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(45deg,#00d2ff 0%,#007aff 50%,#1CB5E0 100%);
+  background-size: 180% 180%;
+  animation: bg-anim 18s ease infinite;
+}
+
+@keyframes bg-anim {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+header {
+  font-family: sans-serif;
+  font-size: 40px;
+  color: #707070;
+  background: #cfcfcf00;
+  align-self: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 8px;
+}
+
+main {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.checkbox-label {
+  margin: 0 15px 0 0;
+}
+
+a {
+  color: #0dbde5;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
