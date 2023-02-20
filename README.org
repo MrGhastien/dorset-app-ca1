@@ -22,6 +22,7 @@ SSH keys are used to connect *securely* to remote computers and servers. A SSH k
 
 * Use
 The main page is an index of all registered users in the database. The ~Register~ button in the top right corner is used to go to the registration form. For now, you can only put a nickname and a full name.
+
 You can click on the 'View details' link on each user to go to its detail page, where you can edit its information or delete it.
 On the left, you can click on the ~SSH Keys~ link to list all SSH keys of the user. You can add new ones with the ~Add key~ button on the top right, or see details of every existing key.
 
