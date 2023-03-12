@@ -16,7 +16,7 @@
 <body>
 
 <header>
-    <a href="{% url 'sshkbase:user-keys' sshkey.user.nickname %}" class="button-link">
+    <a href="{% url 'sshkbase:user-keys' %}" class="button-link">
         <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0">
             <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
                  class="h-6 w-6"
@@ -38,17 +38,23 @@
         <div class="sidebar">
             <ul>
                 <li>
-                    <a href="{% url 'sshkbase:user-detail' sshkey.user.nickname %}" class="sidebar-link">Profile information</a>
+                    <a href="{% url 'sshkbase:index' %}" class="sidebar-link">Home page</a>
                 </li>
                 <li>
-                    <a href="{% url 'sshkbase:user-keys' sshkey.user.nickname %}" class="sidebar-link"><u>SSH Keys</u></a>
+                    <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="sidebar-link">Profile</a>
+                </li>
+                <li>
+                    <a href="{% url 'sshkbase:user-update' %}" class="sidebar-link">Change account info.</a>
+                </li>
+                <li>
+                    <a href="{% url 'sshkbase:user-keys' %}" class="sidebar-link"><u>SSH Keys</u></a>
                 </li>
                 <hr class="solid">
             </ul>
         </div>
         <div class="content-container">
             <div class="headline">
-                <h2><a href="{% url 'sshkbase:user-keys' sshkey.user.nickname %}">SSH Keys</a>/{{ sshkey.title }}</h2>
+                <h2><a href="{% url 'sshkbase:user-keys' %}">SSH Keys</a>/{{ sshkey.title }}</h2>
 
 
             </div>

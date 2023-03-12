@@ -6,21 +6,21 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
-    <link rel="stylesheet" href="{% static 'sshkbase/register.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/center-box.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/user-delete.css' %}">
 </head>
 <body>
 
 <header>
     <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="button-link">
-        <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0">
+        <button class="slide-button slide-reverse-button" id="back-to-home-button" style="--hovered-color: #f0f0f0">
             <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
                  class="h-6 w-6"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
                       stroke-linecap="round"></path>
             </svg>
-            <p id="back-to-index-button-p">Back to index page</p>
+            <p>Back to home page</p>
         </button>
     </a>
 </header>
@@ -45,7 +45,7 @@
                 </button>
             </a>
             <button id="confirm-button" class="boxed-button"
-                    formaction="{% url 'sshkbase:user-delete-do' user.nickname %}"
+                    formaction="{% url 'sshkbase:user-delete-send' %}"
                     formmethod="post">
                 Yes, delete this user...
             </button>

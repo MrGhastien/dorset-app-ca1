@@ -34,3 +34,8 @@ header {
 #new-user-button svg {
   width: 0px
 }
+
+#back-to-home-button p::before,
+#back-to-home-button p::after {
+    content: "Back to home page"
+}

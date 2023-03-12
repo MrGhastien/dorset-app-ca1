@@ -10,4 +10,5 @@
 .button-link,
 .button-link:hover {
   text-decoration: none;
+  background: none;
 }

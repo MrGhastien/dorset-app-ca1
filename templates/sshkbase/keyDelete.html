@@ -6,7 +6,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
-    <link rel="stylesheet" href="{% static 'sshkbase/register.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/center-box.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/key-delete.css' %}">
 </head>
 <body>
@@ -45,7 +45,7 @@
                 </button>
             </a>
             <button id="confirm-button" class="boxed-button"
-                    formaction="{% url 'sshkbase:key-delete-do' sshkey.id %}"
+                    formaction="{% url 'sshkbase:key-delete-send' sshkey.id %}"
                     formmethod="post">
                 Yes, delete this key...
             </button>

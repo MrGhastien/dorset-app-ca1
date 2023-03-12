@@ -1,6 +1,9 @@
+import django.contrib.auth
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.template import loader
 from django.urls import reverse
 from django.utils import timezone
 
@@ -37,28 +40,53 @@ def isNicknameUnique(nickname):
 # and render their respective template.
 
 def indexView(request):
+    # ???
+    user = request.user
+    if user is None or not user.is_authenticated:
+        return render(request, 'sshkbase/index-anonymous.html', {})
+
+    ctx = {
+        'user': user,
+    }
+    return render(request, 'sshkbase/index.html', ctx)
+
+
+def listView(request):
     userList = User.objects.order_by('nickname')
     ctx = {
         'userList': userList
     }
-    return render(request, 'sshkbase/index.html', ctx)
+    return render(request, 'sshkbase/list.html', ctx)
 
 
 def userAddView(request):
     return render(request, 'sshkbase/userAdd.html', {})
 
 
+def userLoginView(request):
+    return render(request, 'sshkbase/userLogin.html', {})
+
+
 def userDetailView(request, userNickname):
     user = get_object_or_404(User, pk=userNickname)
     ctx = {
         'user': user,
+        'self': request.user
     }
     return render(request, 'sshkbase/userDetail.html', ctx)
 
 
-def userKeysView(request, userNickname):
-    user = get_object_or_404(User, pk=userNickname)
-    keys = SSHKey.objects.filter(user__nickname=userNickname)
+def userUpdateView(request):
+    user = request.user
+    ctx = {
+        'user': user,
+    }
+    return render(request, 'sshkbase/userUpdate.html', ctx)
+
+
+def userKeysView(request):
+    user = request.user
+    keys = SSHKey.objects.filter(user__nickname=user.nickname)
     ctx = {
         'user': user,
         'keys': keys
@@ -66,16 +94,16 @@ def userKeysView(request, userNickname):
     return render(request, 'sshkbase/userKeys.html', ctx)
 
 
-def userDeleteView(request, userNickname):
-    user = get_object_or_404(User, pk=userNickname)
+def userDeleteView(request):
+    user = request.user
     ctx = {
         'user': user
     }
     return render(request, 'sshkbase/userDelete.html', ctx)
 
 
-def keyAddView(request, userNickname):
-    user = get_object_or_404(User, pk=userNickname)
+def keyAddView(request):
+    user = request.user
     ctx = {
         'user': user,
     }
@@ -118,6 +146,8 @@ def addUser(request):
     # We gather the information sent with the request
     nickname = request.POST['nickname']
     full_name = request.POST['full-name']
+    email = request.POST['email']
+    password = request.POST['password']
     # Perform some checks to see if the given data is correct
     if not isNicknameValid(nickname):
         # If not, send a HTTP response to display whatever page we want (in this case the same page),
@@ -125,6 +155,7 @@ def addUser(request):
         return render(request, 'sshkbase/userAdd.html', {
             'nickname_try': nickname,
             'name_try': full_name,
+            'email_try': email,
             'error_msg': "Your nickname may only contain lowercase letters, digits, dashes and underscores."
         })
 
@@ -132,42 +163,74 @@ def addUser(request):
         return render(request, 'sshkbase/userAdd.html', {
             'nickname_try': nickname,
             'name_try': full_name,
+            'email_try': email,
             'error_msg': "This nickname is already used."
         })
 
-    # Create the object to be stored in the DB, give it all its values...
-    user = User(nickname=nickname, name=full_name)
-    user.save()  # and save it
+    # Create the object to be stored in the DB, give it all its values and save it
+    user = User.objects.create_user(nickname=nickname, name=full_name, email=email, password=password)
+    try:
+        validate_password(password, user)
+    except ValidationError as err:
+        user.delete()
+        return render(request, 'sshkbase/userAdd.html', {
+            'nickname_try': nickname,
+            'name_try': full_name,
+            'email_try': email,
+            'error_msg': "Your password is invalid :",
+            'passwd_errors': err.error_list
+        })
+
     print("Added user " + user.nickname)
     # Finally send a HTTP response to redirect the user to a different page
     return HttpResponseRedirect(reverse('sshkbase:index'))
 
 
-def updateUser(request, userNickname):
+def loginUser(request):
+    nickname = request.POST['nickname']
+    rawPassword = request.POST['password']
+
+    user = authenticate(request, nickname=nickname, password=rawPassword)
+    if user is not None:
+        login(request, user)
+        return HttpResponseRedirect(reverse('sshkbase:index'))
+    else:
+        return render(request, 'sshkbase/userLogin.html', {
+            'nickname_try': nickname,
+            'error_msg': "Unknown password and/or username."
+        })
+
+
+def logoutUser(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('sshkbase:index'))
+
+
+def updateUser(request):
     # For update functions like this one, we get the existing object with the nickname we got from the URL,
-    user = get_object_or_404(User, pk=userNickname)
+    user = request.user
     newName = request.POST['name']
     # Change its name
     user.name = newName
     # And save it again to update the database
     user.save()
-    print("Updated user " + userNickname)
+    print("Updated user " + user.nickname)
     # Then send a redirect response to redirect the user to the user detail page
     return HttpResponseRedirect(reverse('sshkbase:user-detail', args=(user.nickname,)))
 
 
 # For deletion, we only need to get the object in the database, call the 'delete()' function.
 # then redirect to the previous index page
-def deleteUser(request, userNickname):
-    user = get_object_or_404(User, pk=userNickname)
+def deleteUser(request):
+    user = request.user
     user.delete()
-    print("Deleted user " + userNickname)
+    print("Deleted user " + user.nickname)
     return HttpResponseRedirect(reverse('sshkbase:index'))
 
 
 # Functions for keys do basically the same thing as user ones, but on keys.
-def addKey(request, userNickname):
-    user = get_object_or_404(User, pk=userNickname)
+def addKey(request):
+    user = request.user
     print("Received POST request : " + str(request.POST))
     title = request.POST['title']
     if len(title) == 0 or str.isspace(title):
@@ -193,8 +256,8 @@ def addKey(request, userNickname):
             permissions |= (1 << i)
     keyObj = SSHKey(user=user, title=title, key=key, addDate=date, permissions=permissions)
     keyObj.save()
-    print("Added key #" + str(keyObj.id) + " to user " + userNickname)
-    return HttpResponseRedirect(reverse('sshkbase:user-keys', args=(userNickname,)))
+    print("Added key #" + str(keyObj.id) + " to user " + user.nickname)
+    return HttpResponseRedirect(reverse('sshkbase:user-keys'))
 
 
 def updateKey(request, keyId):
@@ -231,7 +294,7 @@ def updateKey(request, keyId):
             sshkey.permissions |= 1
     sshkey.save()
     print("Updated key #" + str(keyId))
-    return HttpResponseRedirect(reverse('sshkbase:user-keys', args=(sshkey.user.nickname,)))
+    return HttpResponseRedirect(reverse('sshkbase:user-keys'))
 
 
 def deleteKey(request, keyId):
@@ -239,4 +302,4 @@ def deleteKey(request, keyId):
     userNickname = sshkey.user.nickname
     sshkey.delete()
     print("Deleted key #" + str(keyId))
-    return HttpResponseRedirect(reverse('sshkbase:user-keys', args=(userNickname,)))
+    return HttpResponseRedirect(reverse('sshkbase:user-keys'))

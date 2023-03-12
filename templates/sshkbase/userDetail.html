@@ -13,14 +13,14 @@
 
 <header>
     <a href="{% url 'sshkbase:index' %}" class="button-link">
-        <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0">
+        <button class="slide-button slide-reverse-button" id = "back-to-home-button" style="--hovered-color: #f0f0f0">
             <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
                  class="h-6 w-6"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
                       stroke-linecap="round"></path>
             </svg>
-            <p id="back-to-index-button-p">Back to index page</p>
+            <p>Back to home page</p>
         </button>
     </a>
 </header>
@@ -33,66 +33,53 @@
 
         <div class="sidebar">
             <ul>
-                <li>
-                    <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="sidebar-link"><u>Profile information</u></a>
-                </li>
-                <li>
-                    <a href="{% url 'sshkbase:user-keys' user.nickname %}" class="sidebar-link">SSH Keys</a>
-                </li>
+                {% if self.nickname == user.nickname %}
+                    <li>
+                        <a href="{% url 'sshkbase:index' %}" class="sidebar-link">Home page</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="sidebar-link"><u>Profile</u></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sshkbase:user-update' %}" class="sidebar-link">Change account info.</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sshkbase:user-keys' %}" class="sidebar-link">SSH Keys</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="sidebar-link"><u>Profile
+                            information</u></a>
+                    </li>
+                {% endif %}
                 <hr class="solid">
             </ul>
         </div>
         <div class="content-container">
             <div class="headline">
-                <h2>Profile information</h2>
+                <h2>{% if user.nickname == self.nickname %}Profile{% else %}@{{ user.nickname }}'s profile{% endif %}</h2>
             </div>
 
             <hr class="solid">
 
-            <form action="{% url 'sshkbase:user-update' user.nickname %}" method="post">
-                {% csrf_token %}
-                <dl class="form-group">
-                    <dt>
-                        <label for="name-box">Name</label>
-                    </dt>
-                    <dd>
-                        <input id="name-box" class="form-box" name="name" type="text" value="{{ user.name }}">
-                    </dd>
-                </dl>
-                <dl class="form-group">
-                    <dt>
-                        <label for="date-box">Registration date</label>
-                    </dt>
-                    <dd>
+            <dl class="form-group">
+                <dt>
+                    <label for="name-box">Name</label>
+                </dt>
+                <dd>
+                    <input id="name-box" class="form-box" name="name" readonly="readonly" type="text"
+                           value="{{ user.name }}">
+                </dd>
+            </dl>
+            <dl class="form-group">
+                <dt>
+                    <label for="date-box">Registration date</label>
+                </dt>
+                <dd>
                     <input readonly="readonly" id="date-box" class="form-box" name=""
-                              value="{{ user.registerDate }}">
-                    </dd>
-                </dl>
-                <div class="buttons" style="margin-top: 15px;">
-                    <button id="save-changes-button" class="boxed-button add-button">
-                        <p>Save changes</p>
-                        <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
-                             class="h-6 w-6"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M 12 2 L 12 22 M 2 12 L 22 12" stroke-linejoin="round"
-                                  stroke-linecap="round"></path>
-                        </svg>
-
-                    </button>
-
-                    <button class="boxed-button del-button" style="--hovered-color: #fb4934"
-                            formaction="{% url 'sshkbase:user-delete' user.nickname %}" formmethod="get">
-                        <p>Delete user</p>
-                        <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
-                             class="h-6 w-6"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M 4 4 L 20 20 M 4 20 L 20 4" stroke-linejoin="round"
-                                  stroke-linecap="round"></path>
-                        </svg>
-
-                    </button>
-                </div>
-            </form>
+                           value="{{ user.registerDate }}">
+                </dd>
+            </dl>
         </div>
     </div>
 </main>

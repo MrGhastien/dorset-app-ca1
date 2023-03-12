@@ -2,26 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add a new ssh key</title>
+    <title>User {{ user }} details</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/index-style.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/detail-style.css' %}">
-    <link rel="stylesheet" href="{% static 'sshkbase/key-detail.css' %}">
 </head>
 <body>
 
 <header>
-    <a href="{% url 'sshkbase:user-keys' %}" class="button-link">
-        <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0">
+    <a href="{% url 'sshkbase:index' %}" class="button-link">
+        <button class="slide-button slide-reverse-button" id="back-to-home-button" style="--hovered-color: #f0f0f0">
             <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
                  class="h-6 w-6"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
                       stroke-linecap="round"></path>
             </svg>
-            <p id="back-to-user-detail-button-p">Back to user page</p>
+            <p>Back to home page</p>
         </button>
     </a>
 </header>
@@ -41,57 +40,43 @@
                     <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="sidebar-link">Profile</a>
                 </li>
                 <li>
-                    <a href="{% url 'sshkbase:user-update' %}" class="sidebar-link">Change profile info.</a>
+                    <a href="{% url 'sshkbase:user-update' %}" class="sidebar-link"><u>Change account info.</u></a>
                 </li>
                 <li>
-                    <a href="{% url 'sshkbase:user-keys' %}" class="sidebar-link"><u>SSH Keys</u></a>
+                    <a href="{% url 'sshkbase:user-keys' %}" class="sidebar-link">SSH Keys</a>
                 </li>
                 <hr class="solid">
             </ul>
         </div>
         <div class="content-container">
             <div class="headline">
-                <h2><a href="{% url 'sshkbase:user-keys' %}">SSH Keys</a>/New</h2>
-
-
+                <h2>Change account information</h2>
             </div>
+
             <hr class="solid">
 
-            {% if error_msg %}
-                <h2 style="color: red;">Error: {{ error_msg }}</h2>
-            {% endif %}
-
-
-            <form action="{% url 'sshkbase:key-send' %}" method="post">
+            <form action="{% url 'sshkbase:user-update-send' %}" method="post">
                 {% csrf_token %}
                 <dl class="form-group">
                     <dt>
-                        <label for="key-title-box">Title</label>
+                        <label for="name-box">Name</label>
                     </dt>
                     <dd>
-                        <input id="key-title-box" name="title" class="form-box" type="text">
+                        <input id="name-box" class="form-box" name="name" type="text" value="{{ user.name }}">
                     </dd>
                 </dl>
                 <dl class="form-group">
                     <dt>
-                        <label for="key-box">Key</label>
+                        <label for="date-box">Registration date</label>
                     </dt>
                     <dd>
-                    <textarea id="key-box" name="key" class="form-box" placeholder='SSH public key, begins with "ssh-rsa", "ssh-ed25519"'></textarea>
-
+                    <input readonly="readonly" id="date-box" class="form-box" name=""
+                              value="{{ user.registerDate }}">
                     </dd>
                 </dl>
-                <dl class="form-group">
-                    <dt>Permissions</dt>
-                    <dd>
-                        <input id="key-perm-read" name="perm-read" type="checkbox">
-                        <label class="checkbox-label" for="key-perm-read">Read</label>
-                        <input id="key-perm-write" name="perm-write" type="checkbox">
-                        <label class="checkbox-label" for="key-perm-write">Write</label>
-                    </dd>
-                    <dd style="margin-top: 15px">
-                        <button class="add-button boxed-button">
-                        <p>Add key</p>
+                <div class="buttons" style="margin-top: 15px;">
+                    <button id="save-changes-button" class="boxed-button add-button">
+                        <p>Save changes</p>
                         <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
                              class="h-6 w-6"
                              xmlns="http://www.w3.org/2000/svg">
@@ -100,10 +85,20 @@
                         </svg>
 
                     </button>
-                    </dd>
-                </dl>
-            </form>
 
+                    <button class="boxed-button del-button" style="--hovered-color: #fb4934"
+                            formaction="{% url 'sshkbase:user-delete' %}" formmethod="get">
+                        <p>Delete user</p>
+                        <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                             class="h-6 w-6"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 4 4 L 20 20 M 4 20 L 20 4" stroke-linejoin="round"
+                                  stroke-linecap="round"></path>
+                        </svg>
+
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </main>

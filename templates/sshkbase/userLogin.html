@@ -7,21 +7,13 @@
     <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/center-box.css' %}">
-    <style>
-        .user-box > span {
-            font-size: 11px;
-            font-style: italic;
-            margin-bottom: 30px;
-            color: #888;
-        }
-    </style>
 </head>
 <body>
 
 <header>
     <a href="{% url 'sshkbase:index' %}" class="button-link">
-        <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0">
-            <svg stroke-width="4" stroke="currentColor" id="back-to-home-button" viewBox="0 0 24 24" fill="none"
+        <button class="slide-button slide-reverse-button" id="back-to-home-button" style="--hovered-color: #f0f0f0">
+            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
                  class="h-6 w-6"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
@@ -40,7 +32,7 @@
                 us to another url immediately
                 For this particular form, see 'user-add' in views.py. In PyCharm, CTRL + LCLICK on
                 the 'action' value-->
-    <form action="{% url 'sshkbase:user-new-send' %}" method="post">
+    <form action="{% url 'sshkbase:user-login-send' %}" method="post">
         {% csrf_token %}
         <div class="user-box">
             <input id="nickname-box" required="required" name="nickname" type="text"{% if nickname_try %}
@@ -48,36 +40,17 @@
             <label for="nickname-box">Nickname</label>
         </div>
         <div class="user-box">
-            <input id="name-box" required="required" name="full-name" type="text"{% if name_try %}
-                   value="{{ name_try }}" {% endif %}>
-            <label for="name-box">Full name</label>
-        </div>
-        <div class="user-box">
-            <input id="email-box" required="required" name="email" type="text"{% if name_try %}
-                   value="{{ email_try }}" {% endif %}>
-            <label for="email-box">Email address</label>
-        </div>
-        <div class="user-box">
-            <input id="password-box" required="required" name="password" type="password"{% if name_try %}
-                   value="" {% endif %} style="margin-bottom: 5px;">
+            <input id="password-box" required="required" name="password" type="password">
             <label for="password-box">Password</label>
-            <span>The password must be at least 8 characters long.</span>
         </div>
         {% if error_msg %}
             <div class="error-msg">
                 {{ error_msg }}
-                {% if passwd_errors %}
-                    <ul>
-                    {% for err in passwd_errors %}
-                        <li>{{ err }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
             </div>
         {% endif %}
         <div style="text-align: center;">
-            <button id="register-button">
-                Register
+            <button id="login-button">
+                Login
             </button>
         </div>
     </form>

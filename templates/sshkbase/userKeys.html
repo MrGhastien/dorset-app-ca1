@@ -13,14 +13,14 @@
 
 <header>
     <a href="{% url 'sshkbase:index' %}" class="button-link">
-        <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0">
+        <button class="slide-button slide-reverse-button" id="back-to-home-button" style="--hovered-color: #f0f0f0">
             <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
                  class="h-6 w-6"
                  xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
                       stroke-linecap="round"></path>
             </svg>
-            <p id="back-to-index-button-p">Back to index page</p>
+            <p>Back to home page</p>
         </button>
     </a>
 </header>
@@ -34,18 +34,24 @@
         <div class="sidebar">
             <ul>
                 <li>
-                    <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="sidebar-link">Profile information</a>
-                </li>
-                <li>
-                    <a href="{% url 'sshkbase:user-keys' user.nickname %}" class="sidebar-link"><u>SSH Keys</u></a>
-                </li>
+                        <a href="{% url 'sshkbase:index' %}" class="sidebar-link">Home page</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="sidebar-link">Profile</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sshkbase:user-update' %}" class="sidebar-link">Change account info.</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sshkbase:user-keys' %}" class="sidebar-link"><u>SSH Keys</u></a>
+                    </li>
                 <hr class="solid">
             </ul>
         </div>
         <div class="content-container">
             <div class="headline">
                 <h2>SSH Keys</h2>
-                <a href="{% url 'sshkbase:add-key' userNickname=user.nickname %}" class="button-link">
+                <a href="{% url 'sshkbase:add-key' %}" class="button-link">
                     <button class="add-button boxed-button">
                         <p>Add key</p>
                         <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"

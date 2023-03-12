@@ -75,13 +75,14 @@ button.slide-button:hover p::after {
 }
 
 button.slide-button:hover svg {
-  transform: translateX(4px);
+  transform: translate(4px, -2px);
   color: var(--hovered-color);
   transition-delay: 0.2s;
 }
 
 button.slide-button svg {
   color: var(--primary-color);
+  transform: translate(0, -2px);
   transition: 0.2s;
   position: relative;
   width: 15px;

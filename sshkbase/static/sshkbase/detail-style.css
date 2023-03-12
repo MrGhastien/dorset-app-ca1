@@ -120,3 +120,19 @@ textarea.form-box {
     width: 600px;
     height: 150px;
 }
+
+#logout-button p::before,
+#logout-button p::after {
+    content: "Log out"
+}
+
+#list-users-button p::before,
+#list-users-button p::after {
+    content: "See other users"
+}
+
+#back-to-home-button p::before,
+#back-to-home-button p::after {
+    content: "Back to home page"
+}
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/center-box.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/anonymous.css' %}">
+</head>
+<body>
+
+<header>
+    <span></span>
+
+</header>
+
+<div class="login-box">
+
+    <h2>You are not logged in.</h2>
+
+    <div class="button-container">
+        <a href="{% url 'sshkbase:user-login' %}" class="button-link">
+            <button class="slide-button" id="login-button" style="border: none; background: none;">
+                <p>Log me in</p>
+                <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+
+            </button>
+        </a>
+
+    </div>
+    <div class="button-container">
+        <a href="{% url 'sshkbase:user-new' %}" class="button-link">
+            <button class="slide-button" id="register-button" style="border: none; background: none;">
+                <p>Create an account</p>
+                <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                     class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 12 2 L 12 22 M 2 12 L 22 12" stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+
+            </button>
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>
