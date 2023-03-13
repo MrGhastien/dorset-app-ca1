@@ -41,6 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=200)
     email = models.EmailField("email address", blank=True)
     registerDate = models.DateTimeField('Registration date', default=timezone.now)
+    is_active = models.BooleanField('active', default=True)
 
     isAdmin = models.BooleanField("is admin", default=False)
 

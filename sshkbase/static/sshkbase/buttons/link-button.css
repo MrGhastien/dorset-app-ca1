@@ -1,0 +1,40 @@
+/* 'Add key' button */
+.link-button {
+    --primary-color: #f0f0f0;
+    --hovered-color: #0dbde5;
+    --shadow-color: #0dbde57f;
+    color: var(--font-color);
+    transition: 0.2s;
+    vertical-align: center;
+    border: 1px solid #909090;
+    border-radius: 5px;
+}
+
+.link-button:hover {
+    background: var(--hovered-color);
+    color: var(--font-color);
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px var(--shadow-color);
+    border: 1px solid var(--hovered-color);
+}
+
+.boxed-button.link-button p {
+    color: var(--font-color);
+}
+
+.boxed-button.link-button:hover p {
+    color: var(--font-color);
+}
+
+.link-button:hover svg {
+    --primary-color: #111;
+    color: var(--primary-color);
+    transform: translateX(3px);
+}
+
+.link-button svg {
+    width: 12px;
+    transform: none;
+    transition: 0.2s;
+    color: var(--font-color);
+}

@@ -1,0 +1,67 @@
+{% extends "detail.html" %}
+{% block title %}User {{ user }} details{% endblock %}
+
+{% block sidebar %}
+    {% if self.nickname == user.nickname %}
+        {{ block.super }}
+    {% else %}
+        <li>
+            <a href="{% url 'sshkbase:user-detail' user.nickname %}" class="sidebar-link"><u>Profile
+                information</u></a>
+        </li>
+        <hr class="solid">
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+    {% if self.nickname == user.nickname %}
+        {{ block.super }}
+    {% else %}
+        <a href="{% url 'sshkbase:list' %}" class="button-link">
+            <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0" id="list-users-button">
+                <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                     class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+                <p>See other users</p>
+            </button>
+        </a>
+        <a href="{% url 'sshkbase:index' %}" class="button-link">
+            <button class="slide-button" id="back-to-home-button" style="--hovered-color: #f0f0f0">
+                <p>Back to home page</p>
+                <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+            </button>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block specific-headline %}
+    <h2>{% if user.nickname == self.nickname %}Profile{% else %}@{{ user.nickname }}'s profile{% endif %}</h2>
+{% endblock %}
+
+{% block content %}
+    <dl class="form-group">
+        <dt>
+            <label for="name-box">Name</label>
+        </dt>
+        <dd>
+            <input id="name-box" class="form-box" name="name" readonly="readonly" type="text"
+                   value="{{ user.name }}">
+        </dd>
+    </dl>
+    <dl class="form-group">
+        <dt>
+            <label for="date-box">Registration date</label>
+        </dt>
+        <dd>
+            <input readonly="readonly" id="date-box" class="form-box" name=""
+                   value="{{ user.registerDate }}">
+        </dd>
+    </dl>
+{% endblock %}

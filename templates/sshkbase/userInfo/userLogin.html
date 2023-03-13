@@ -40,8 +40,9 @@
             <label for="nickname-box">Nickname</label>
         </div>
         <div class="user-box">
-            <input id="password-box" required="required" name="password" type="password">
+            <input id="password-box" required="required" name="password" type="password" style="margin-bottom: 5px;">
             <label for="password-box">Password</label>
+            <a href="{% url 'password_reset' %}">I forgot my password !</a>
         </div>
         {% if error_msg %}
             <div class="error-msg">
@@ -49,7 +50,7 @@
             </div>
         {% endif %}
         <div style="text-align: center;">
-            <button id="login-button">
+            <button id="login-button" class="boxed-button">
                 Login
             </button>
         </div>

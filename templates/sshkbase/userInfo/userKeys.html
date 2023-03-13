@@ -1,0 +1,54 @@
+{% extends "detail.html" %}
+{% load static %}
+{% block title %}User {{ user }} details{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'sshkbase/list-style.css' %}">
+    {{ block.super }}
+{% endblock %}
+
+{% block specific-headline %}
+    <h2>SSH Keys</h2>
+    <a href="{% url 'sshkbase:add-key' %}" class="button-link">
+        <button class="add-button boxed-button">
+            <p>Add key</p>
+            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M 12 2 L 12 22 M 2 12 L 22 12" stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+
+        </button>
+    </a>
+{% endblock %}
+
+{% block content %}
+    {% if keys %}
+        <div class="list">
+            {% for k in keys %}
+                <div class="line">
+                    <div class="key-info">
+                        <h4>{{ k.title }}</h4>
+                        <p>{{ k.key }}</p>
+                        <h5>Added {{ k.addDate }}</h5>
+                    </div>
+                    <a href="{% url 'sshkbase:key-detail' keyId=k.id %}" class="button-link">
+                        <button class="slide-button">
+                            <p>View details</p>
+                            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                                 class="h-6 w-6"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round"
+                                      stroke-linecap="round"></path>
+                            </svg>
+
+                        </button>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h3>No SSH keys yet added.</h3>
+    {% endif %}
+{% endblock %}

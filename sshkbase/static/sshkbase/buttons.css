@@ -4,8 +4,7 @@
 
 @import "buttons/delete-button.css";
 @import "buttons/add-button.css";
-
-
+@import "buttons/link-button.css";
 
 .button-link,
 .button-link:hover {

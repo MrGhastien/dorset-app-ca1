@@ -6,7 +6,7 @@
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
-    <link rel="stylesheet" href="{% static 'sshkbase/index-style.css' %}">
+    <link rel="stylesheet" href="{% static 'sshkbase/list-style.css' %}">
     <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
 </head>
 <body>
@@ -26,6 +26,7 @@
     <!--Inside templates, we can tell django to use urls defined in urls.py
         Here, the button is a link to the 'sshkbase:user-new' url (see urls.py)
         next to the name of the url, we can add arguments (see list below)-->
+    {% if not user.is_authenticated %}
     <a href="{% url 'sshkbase:user-new' %}" class="button-link">
         <button class="slide-button" id="new-user-button" style="--hovered-color: #f0f0f0">
             <p>Register</p>
@@ -38,6 +39,7 @@
 
         </button>
     </a>
+    {% endif %}
 </header>
 <main>
     <!--Django templates allows us to use logic inside HTML files.

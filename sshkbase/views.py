@@ -1,12 +1,13 @@
-import django.contrib.auth
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 
+from . import urls
 from .models import User, SSHKey
 
 PERMISSION_NAMES = ['read', 'write']
@@ -32,6 +33,37 @@ def isNicknameUnique(nickname):
     return True
 
 
+def boldifyCurrentPath(request, path, name):
+    if request.path == str(path):
+        return "<u>" + name + "</u>"
+    return name
+
+
+def reverseUrl(request, tup):
+    if len(tup) == 3:
+        return reverse(tup[0], args=tup[2](request))
+    return reverse(tup[0])
+
+
+def fillDetailContext(request, ctx: dict):
+    links = []
+    for g in urls.sidebar_links:
+        group = []
+        for e in g:
+            link = reverseUrl(request, e)
+            group.append((link, boldifyCurrentPath(request, link, e[1])))
+        links.append(group)
+    ctx['links'] = links
+
+    if request.user.isAdmin:
+        admin_links = []
+        for e in urls.admin_sidebar_links:
+            link = reverseUrl(request, e)
+            admin_links.append((link, boldifyCurrentPath(request, link, e[1])))
+
+        ctx['admin_links'] = admin_links
+
+
 # === BASIC VIEW FUNCTIONS ===
 
 # Each one of these functions returns a HttpResponse containing the HTML and CSS
@@ -48,6 +80,7 @@ def indexView(request):
     ctx = {
         'user': user,
     }
+    fillDetailContext(request, ctx)
     return render(request, 'sshkbase/index.html', ctx)
 
 
@@ -60,11 +93,11 @@ def listView(request):
 
 
 def userAddView(request):
-    return render(request, 'sshkbase/userAdd.html', {})
+    return render(request, 'sshkbase/userInfo/userAdd.html', {})
 
 
 def userLoginView(request):
-    return render(request, 'sshkbase/userLogin.html', {})
+    return render(request, 'sshkbase/userInfo/userLogin.html', {})
 
 
 def userDetailView(request, userNickname):
@@ -73,7 +106,8 @@ def userDetailView(request, userNickname):
         'user': user,
         'self': request.user
     }
-    return render(request, 'sshkbase/userDetail.html', ctx)
+    fillDetailContext(request, ctx)
+    return render(request, 'sshkbase/userInfo/userDetail.html', ctx)
 
 
 def userUpdateView(request):
@@ -81,7 +115,8 @@ def userUpdateView(request):
     ctx = {
         'user': user,
     }
-    return render(request, 'sshkbase/userUpdate.html', ctx)
+    fillDetailContext(request, ctx)
+    return render(request, 'sshkbase/userInfo/userUpdate.html', ctx)
 
 
 def userKeysView(request):
@@ -91,7 +126,8 @@ def userKeysView(request):
         'user': user,
         'keys': keys
     }
-    return render(request, 'sshkbase/userKeys.html', ctx)
+    fillDetailContext(request, ctx)
+    return render(request, 'sshkbase/userInfo/userKeys.html', ctx)
 
 
 def userDeleteView(request):
@@ -99,7 +135,16 @@ def userDeleteView(request):
     ctx = {
         'user': user
     }
-    return render(request, 'sshkbase/userDelete.html', ctx)
+    return render(request, 'sshkbase/userInfo/userDelete.html', ctx)
+
+
+def passwordUpdateView(request):
+    user = request.user
+    ctx = {
+        'user': user
+    }
+    fillDetailContext(request, ctx)
+    return render(request, 'registration/password-change.html', ctx)
 
 
 def keyAddView(request):
@@ -107,7 +152,8 @@ def keyAddView(request):
     ctx = {
         'user': user,
     }
-    return render(request, 'sshkbase/keyAdd.html', ctx)
+    fillDetailContext(request, ctx)
+    return render(request, 'sshkbase/keyInfo/keyAdd.html', ctx)
 
 
 # View details about a key
@@ -124,8 +170,9 @@ def keyDetailView(request, keyId):
         'perms': perms,
         'perm_labels': PERMISSION_LABELS
     }
+    fillDetailContext(request, ctx)
 
-    return render(request, 'sshkbase/keyDetail.html', ctx)
+    return render(request, 'sshkbase/keyInfo/keyDetail.html', ctx)
 
 
 def keyDeleteView(request, keyId):
@@ -133,7 +180,7 @@ def keyDeleteView(request, keyId):
     ctx = {
         'sshkey': sshkey
     }
-    return render(request, 'sshkbase/keyDelete.html', ctx)
+    return render(request, 'sshkbase/keyInfo/keyDelete.html', ctx)
 
 
 # === POST REQUEST HANDLERS ===
@@ -152,7 +199,7 @@ def addUser(request):
     if not isNicknameValid(nickname):
         # If not, send a HTTP response to display whatever page we want (in this case the same page),
         # but with an error message attached
-        return render(request, 'sshkbase/userAdd.html', {
+        return render(request, 'sshkbase/userInfo/userAdd.html', {
             'nickname_try': nickname,
             'name_try': full_name,
             'email_try': email,
@@ -160,7 +207,7 @@ def addUser(request):
         })
 
     if not isNicknameUnique(nickname):
-        return render(request, 'sshkbase/userAdd.html', {
+        return render(request, 'sshkbase/userInfo/userAdd.html', {
             'nickname_try': nickname,
             'name_try': full_name,
             'email_try': email,
@@ -173,7 +220,7 @@ def addUser(request):
         validate_password(password, user)
     except ValidationError as err:
         user.delete()
-        return render(request, 'sshkbase/userAdd.html', {
+        return render(request, 'sshkbase/userInfo/userAdd.html', {
             'nickname_try': nickname,
             'name_try': full_name,
             'email_try': email,
@@ -195,7 +242,7 @@ def loginUser(request):
         login(request, user)
         return HttpResponseRedirect(reverse('sshkbase:index'))
     else:
-        return render(request, 'sshkbase/userLogin.html', {
+        return render(request, 'sshkbase/userInfo/userLogin.html', {
             'nickname_try': nickname,
             'error_msg': "Unknown password and/or username."
         })
@@ -228,25 +275,53 @@ def deleteUser(request):
     return HttpResponseRedirect(reverse('sshkbase:index'))
 
 
+def updatePassword(request):
+    user = request.user
+    password = request.POST['password']
+    password2 = request.POST['password-confirm']
+
+    if password != password2:  # Both passwords didn't match
+        ctx = {
+            'error_msg': "The two passwords are different",
+        }
+        fillDetailContext(request, ctx)
+        return render(request, 'registration/password-change.html', ctx)
+
+    try:
+        validate_password(password, user)
+    except ValidationError as err:
+        ctx = {
+            'error_msg': "The new password is invalid :",
+            'passwd_errors': err.error_list
+        }
+        fillDetailContext(request, ctx)
+        return render(request, 'registration/password-change.html', ctx)
+
+    user.set_password(password)
+    user.save()
+    return HttpResponseRedirect(reverse('sshkbase:index'))
+
+
 # Functions for keys do basically the same thing as user ones, but on keys.
 def addKey(request):
     user = request.user
     print("Received POST request : " + str(request.POST))
     title = request.POST['title']
+    error_ctx = {
+        'user': user,
+    }
+    fillDetailContext(request, error_ctx)
     if len(title) == 0 or str.isspace(title):
-        return render(request, 'sshkbase/keyAdd.html', {
-            'user': user,
-            'error_msg': "You must specify a title for the key"
-        })
+        error_ctx['error_msg'] = "You must specify a title for the key"
+        return render(request, 'sshkbase/keyInfo/keyAdd.html', error_ctx)
+
     title = str.strip(title)
     key = request.POST['key']
     if len(key) == 0 or str.isspace(key):
-        return render(request, 'sshkbase/keyAdd.html', {
-            'user': user,
-            'error_msg': "The key cannot be empty"
-        })
-    key = str.strip(key)
+        error_ctx['error_msg'] = "The key cannot be empty"
+        return render(request, 'sshkbase/keyInfo/keyAdd.html', error_ctx)
 
+    key = str.strip(key)
     date = timezone.now()
     permissions = 0
     for i in range(len(PERMISSION_NAMES)):
@@ -265,26 +340,25 @@ def updateKey(request, keyId):
     permInt = sshkey.permissions
     perms = dict()
 
+    error_ctx = {
+        'sshkey': sshkey,
+        'perms': perms,
+        'perm_labels': PERMISSION_LABELS,
+    }
+
     for n in PERMISSION_NAMES:
         perms[n] = bool(permInt & 1)
         permInt >>= 1
     title = request.POST['title']
     if len(title) == 0 or str.isspace(title):
-        return render(request, 'sshkbase/keyDetail.html', {
-            'sshkey': sshkey,
-            'perms': perms,
-            'perm_labels': PERMISSION_LABELS,
-            'error_msg': "You must specify a title for the key"
-        })
+        error_ctx['error_msg'] = "You must specify a title for the key"
+        return render(request, 'sshkbase/keyInfo/keyDetail.html', error_ctx)
+
     sshkey.title = str.strip(title)
     key = request.POST['key']
     if len(key) == 0 or str.isspace(key):
-        return render(request, 'sshkbase/keyDetail.html', {
-            'sshkey': sshkey,
-            'perms': perms,
-            'perm_labels': PERMISSION_LABELS,
-            'error_msg': "The key cannot be empty"
-        })
+        error_ctx['error_msg'] = "The key cannot be empty"
+        return render(request, 'sshkbase/keyInfo/keyDetail.html', error_ctx)
     sshkey.key = str.strip(key)
     sshkey.permissions = 0
     for n in PERMISSION_NAMES:

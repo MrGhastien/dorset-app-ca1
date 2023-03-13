@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on localhost:8000
+From: webmaster@localhost
+To: bastien.morino@free.fr
+Date: Mon, 13 Mar 2023 23:42:29 -0000
+Message-ID: <167875094963.73473.9417604406338866905@pc-raclette>
+
+
+You're receiving this email because you requested a password reset for your user account at localhost:8000.
+
+Please go to the following page and choose a new password:
+
+http://localhost:8000/reset/bXJnaGFzdGllbg/bl0xut-180435106e01bde2da9fa8a07ce2a3bb
+
+Your username, in case you’ve forgotten: mrghastien
+
+Thanks for using our site!
+
+The localhost:8000 team
+
+
+
+-------------------------------------------------------------------------------

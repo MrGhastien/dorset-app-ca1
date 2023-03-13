@@ -1,3 +1,7 @@
+header {
+  display: flex;
+}
+
 header span {
     color: #fe8019;
 }

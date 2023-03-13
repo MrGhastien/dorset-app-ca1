@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sample title{% endblock %}</title>
+    {% load static %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{% static 'sshkbase/base.css' %}">
+        <link rel="stylesheet" href="{% static 'sshkbase/buttons.css' %}">
+        <link rel="stylesheet" href="{% static 'sshkbase/detail-style.css' %}">
+    {% endblock %}
+</head>
+<body>
+
+<header style="min-height: 35px">
+    {% block header %}
+    <a href="{% url 'sshkbase:list' %}" class="button-link">
+        <button class="slide-button slide-reverse-button" style="--hovered-color: #f0f0f0" id="list-users-button">
+            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                 class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 5l-7 7m0 0l7 7m-7-7H20" stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+            <p>See other users</p>
+        </button>
+    </a>
+    <a href="{% url 'sshkbase:user-logout' %}" class="button-link">
+        <button class="slide-button" id="logout-button" style="--hovered-color: #f0f0f0">
+            <p>Log out</p>
+            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+
+        </button>
+    </a>
+    {% endblock %}
+</header>
+<main>
+    <div class="headline">
+        {% block headline %}
+            <h1>{{ user.name }}</h1>
+            <h3>@{{ user.nickname }}</h3>
+        {% endblock %}
+    </div>
+    <div class="flexbox-container">
+
+        <div class="sidebar">
+            {% block sidebar %}
+                <ul>
+                    {% for link_group in links %}
+                        {% for l, n in link_group %}
+                            <li>
+                                <a href="{{ l }}" class="sidebar-link">{{ n|safe }}</a>
+                            </li>
+
+                        {% endfor %}
+                        <hr class="solid">
+                    {% endfor %}
+                    {% if admin_links %}
+                        {% for l,n in admin_links %}
+                            <li>
+                                <a href="{{ l }}" class="sidebar-link">{{ n|safe }}</a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            {% endblock %}
+        </div>
+        <div class="content-container">
+            <div class="headline">
+                {% block specific-headline %}
+                    <h2>Welcome @{{ user.name }} !</h2>
+                {% endblock %}
+            </div>
+            <hr class="solid">
+            {% block content %}
+                Sample content
+            {% endblock %}
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

@@ -27,6 +27,8 @@
 
 <div class="login-box">
 
+    <!--The form action redirects to the index page to prevent accidentally deleting the user
+    when adding a new button-->
     <form action="{% url 'sshkbase:user-detail' user.nickname %}" method="get">
         {% csrf_token %}
         <h2>Are you sure you want to delete user "{{ user.nickname }}" ?</h2>

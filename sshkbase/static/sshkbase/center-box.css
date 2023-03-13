@@ -46,7 +46,7 @@
   font-size: 12px;
 }
 
-.login-box form button {
+.login-box .boxed-button {
   --hovered-color: #03f40f;
   --shadow-color: #03f40f7f;
   position: relative;
@@ -65,7 +65,7 @@
   border-radius: 5px;
 }
 
-.login-box button:hover {
+.login-box .boxed-button:hover {
   background: var(--hovered-color);
   color: var(--font-color);
   border-radius: 5px;
@@ -80,6 +80,18 @@
   border: 1px solid #fb4934;
   background: #fb493410;
 }
+
+.user-box > span {
+            font-size: 11px;
+            font-style: italic;
+            margin-bottom: 30px;
+            color: #888;
+        }
+
+.user-box > a {
+            font-size: 11px;
+            margin-bottom: 30px;
+        }
 
 #back-to-home-button p::before,
 #back-to-home-button p::after {

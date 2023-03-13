@@ -1,8 +1,19 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse
 
 from . import views
 
+sidebar_links = [
+    [
+        ('sshkbase:index', "Home page"),
+        ('sshkbase:user-detail', "Profile", lambda r: (r.user.nickname,)),
+        ('sshkbase:user-update', "Change account info."),
+        ('sshkbase:user-keys', "SSH Keys")
+    ]
+]
+
+admin_sidebar_links = [
+    ('admin:index', "Django administration")
+]
 
 app_name = "sshkbase"
 urlpatterns = [
@@ -15,6 +26,8 @@ urlpatterns = [
     path('users/<str:userNickname>', views.userDetailView, name='user-detail'),
     path('update-user', views.userUpdateView, name='user-update'),
     path('update-user/send', views.updateUser, name='user-update-send'),
+    path('update-user/password', views.passwordUpdateView, name='user-update-password'),
+    path('update-user/password/send', views.updatePassword, name='user-update-password-send'),
     path('delete-user', views.userDeleteView, name='user-delete'),
     path('delete-user/send', views.deleteUser, name='user-delete-send'),
     path('new-user', views.userAddView, name='user-new'),

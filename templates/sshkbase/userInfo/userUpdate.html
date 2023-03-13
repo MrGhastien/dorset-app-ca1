@@ -1,0 +1,63 @@
+{% extends "detail.html" %}
+{% block specific-headline %}
+    <h2>Change account information</h2>
+
+    <a href="{% url 'sshkbase:user-update-password' %}" class="button-link">
+        <button id="save-changes-button" class="boxed-button link-button">
+            <p>Change password</p>
+            <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round"
+                      stroke-linecap="round"></path>
+            </svg>
+
+        </button>
+    </a>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'sshkbase:user-update-send' %}" method="post">
+        {% csrf_token %}
+        <dl class="form-group">
+            <dt>
+                <label for="name-box">Name</label>
+            </dt>
+            <dd>
+                <input id="name-box" class="form-box" name="name" type="text" value="{{ user.name }}">
+            </dd>
+        </dl>
+        <dl class="form-group">
+            <dt>
+                <label for="date-box">Registration date</label>
+            </dt>
+            <dd>
+                <input readonly="readonly" id="date-box" class="form-box" name=""
+                       value="{{ user.registerDate }}">
+            </dd>
+        </dl>
+        <div class="buttons" style="margin-top: 15px;">
+            <button id="save-changes-button" class="boxed-button add-button">
+                <p>Save changes</p>
+                <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                     class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 12 2 L 12 22 M 2 12 L 22 12" stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+
+            </button>
+
+            <button class="boxed-button del-button" style="--hovered-color: #fb4934"
+                    formaction="{% url 'sshkbase:user-delete' %}" formmethod="get">
+                <p>Delete user</p>
+                <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                     class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 4 4 L 20 20 M 4 20 L 20 4" stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+
+            </button>
+        </div>
+    </form>
+{% endblock %}

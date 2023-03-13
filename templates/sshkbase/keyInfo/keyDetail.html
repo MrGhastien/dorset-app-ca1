@@ -1,0 +1,79 @@
+{% extends "detail.html" %}
+{% block title %}Modify SSH key{% endblock %}
+
+{% block stylesheets %}
+    {% load static %}
+    <!--This is used to tell Django to load our custom template filters-->
+    <!--See 'sshkbase/filters.py' and 'ca1/settings.py'-->
+    {% load template_filters %}
+
+    <link rel="stylesheet" href="{% static 'sshkbase/list-style.css' %}">
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'sshkbase/key-detail.css' %}">
+{% endblock %}
+
+{% block specific-headline %}
+    <h2><a href="{% url 'sshkbase:user-keys' %}">SSH Keys</a>/{{ sshkey.title }}</h2>
+{% endblock %}
+
+{% block content %}
+    {% if error_msg %}
+        <h2 style="color: red;">Error: {{ error_msg }}</h2>
+    {% endif %}
+    <form action="{% url 'sshkbase:key-update' sshkey.id %}" method="post">
+        {% csrf_token %}
+        <dl class="form-group">
+            <dt>
+                <label for="key-title-box">Title</label>
+            </dt>
+            <dd>
+                <input id="key-title-box" name="title" class="form-box" type="text" value="{{ sshkey.title }}">
+            </dd>
+        </dl>
+        <dl class="form-group">
+            <dt>
+                <label for="key-box">Key</label>
+            </dt>
+            <dd>
+                    <textarea id="key-box" name="key" class="form-box"
+                              placeholder='SSH public key, begins with "ssh-rsa", "ssh-ed25519"'
+                    >{{ sshkey.key }}</textarea>
+            </dd>
+        </dl>
+        <dl class="form-group">
+            <dt>Permissions</dt>
+            <dd>
+                {% for k, v in perms.items %}
+                    <input id="key-perm-{{ k }}" name="perm-{{ k }}" type="checkbox"
+                           {% if v %}checked="checked" {% endif %}>
+                    <label class="checkbox-label" for="key-perm-{{ k }}">{{ perm_labels|get_item:k }}</label>
+                {% endfor %}
+            </dd>
+
+        </dl>
+        <div class="buttons" style="margin-top: 15px;">
+            <button id="save-changes-button" class="boxed-button add-button">
+                <p>Save changes</p>
+                <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                     class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 12 2 L 12 22 M 2 12 L 22 12" stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+
+            </button>
+
+            <button class="boxed-button del-button" style="--hovered-color: #fb4934"
+                    formaction="{% url 'sshkbase:key-delete' sshkey.id %}">
+                <p>Delete</p>
+                <svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none"
+                     class="h-6 w-6"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 4 4 L 20 20 M 4 20 L 20 4" stroke-linejoin="round"
+                          stroke-linecap="round"></path>
+                </svg>
+
+            </button>
+        </div>
+    </form>
+{% endblock %}
