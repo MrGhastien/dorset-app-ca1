@@ -5,10 +5,13 @@
 This application stores Users and SSHKeys. Each SSH key is tied to a specific user. It could be used with a server hosting files, for example a git server, as a way to easily authenticate users to upload
 and get files securely.
 
-I re-read the Django tutorial and changed some things, e.g. I added new fields to the model classes and renamed some functions, to make the application how I wanted it to be. I also used the 'Polls' app as a reference on how to send data to the web browser and back to the server. The longest part was actually the frontend; Typesetting elements on a webpage is quite a process, whereas Django is quite straightforward and easy to use.
+The account system has been implemented ! You can have a unique nickname and a name you can change later if you want. You also need to provide your email address in case you forget your password.
 
-There is no ``login'' process yet, everyone can add, change or delete users and their ssh keys.
+The tutorials on [[learndjango.com]] were very helpful by detailing all things that must be done to have a complete authentication system.
+However, my app had a small problem : I created my own user model, and the Django's authentication system uses their default one. So I had to tell django to replace its user model by mine. 
+The Django documentation is very detailled and complete, so this was not too complicated.
 
+I also thought my HTML templates were very messy, so I used Django's template inheritance system to create base templates, which can then be overriden to make subequent templates a lot shorter and tidier.
 
 * Docs and comments
 There are comments inside :
