@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
@@ -46,6 +45,7 @@ def reverseUrl(request, tup):
 
 
 def fillDetailContext(request, ctx: dict):
+    """Adds links for detail pages in the given template context.`"""
     links = []
     for g in urls.sidebar_links:
         group = []
@@ -112,6 +112,8 @@ def userDetailView(request, userNickname):
 
 def userUpdateView(request):
     user = request.user
+    if user is None or not user.is_authenticated:
+        return render(request, 'sshkbase/index-anonymous.html', {})
     ctx = {
         'user': user,
     }
@@ -121,6 +123,9 @@ def userUpdateView(request):
 
 def userKeysView(request):
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse('sshkbase:index'))
+
     keys = SSHKey.objects.filter(user__nickname=user.nickname)
     ctx = {
         'user': user,
@@ -132,6 +137,8 @@ def userKeysView(request):
 
 def userDeleteView(request):
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse('sshkbase:index'))
     ctx = {
         'user': user
     }
@@ -140,6 +147,8 @@ def userDeleteView(request):
 
 def passwordUpdateView(request):
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse('sshkbase:index'))
     ctx = {
         'user': user
     }
@@ -149,6 +158,8 @@ def passwordUpdateView(request):
 
 def keyAddView(request):
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse('sshkbase:index'))
     ctx = {
         'user': user,
     }
@@ -256,6 +267,9 @@ def logoutUser(request):
 def updateUser(request):
     # For update functions like this one, we get the existing object with the nickname we got from the URL,
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse('sshkbase:index'))
+
     newName = request.POST['name']
     # Change its name
     user.name = newName
@@ -270,17 +284,23 @@ def updateUser(request):
 # then redirect to the previous index page
 def deleteUser(request):
     user = request.user
-    user.delete()
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse('sshkbase:index'))
+
     print("Deleted user " + user.nickname)
+    user.delete()
     return HttpResponseRedirect(reverse('sshkbase:index'))
 
 
 def updatePassword(request):
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse('sshkbase:index'))
+
     password = request.POST['password']
     password2 = request.POST['password-confirm']
 
-    if password != password2:  # Both passwords didn't match
+    if password != password2:
         ctx = {
             'error_msg': "The two passwords are different",
         }
@@ -305,6 +325,14 @@ def updatePassword(request):
 # Functions for keys do basically the same thing as user ones, but on keys.
 def addKey(request):
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse('sshkbase:index'))
+
+    # Fields :
+    # title: name of the key
+    # key: the key itself
+    # perm-*: the different permissions flags
+
     print("Received POST request : " + str(request.POST))
     title = request.POST['title']
     error_ctx = {
@@ -340,15 +368,16 @@ def updateKey(request, keyId):
     permInt = sshkey.permissions
     perms = dict()
 
+    for n in PERMISSION_NAMES:
+        perms[n] = bool(permInt & 1)
+        permInt >>= 1
+
     error_ctx = {
         'sshkey': sshkey,
         'perms': perms,
         'perm_labels': PERMISSION_LABELS,
     }
 
-    for n in PERMISSION_NAMES:
-        perms[n] = bool(permInt & 1)
-        permInt >>= 1
     title = request.POST['title']
     if len(title) == 0 or str.isspace(title):
         error_ctx['error_msg'] = "You must specify a title for the key"
@@ -361,11 +390,11 @@ def updateKey(request, keyId):
         return render(request, 'sshkbase/keyInfo/keyDetail.html', error_ctx)
     sshkey.key = str.strip(key)
     sshkey.permissions = 0
-    for n in PERMISSION_NAMES:
-        sshkey.permissions <<= 1
+    for i in range(len(PERMISSION_NAMES)):
+        n = PERMISSION_NAMES[i]
         fullName = 'perm-' + n
         if fullName in request.POST and request.POST[fullName] == 'on':
-            sshkey.permissions |= 1
+            sshkey.permissions |= (1 << i)
     sshkey.save()
     print("Updated key #" + str(keyId))
     return HttpResponseRedirect(reverse('sshkbase:user-keys'))

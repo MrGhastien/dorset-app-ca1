@@ -70,7 +70,7 @@ class SSHKey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     key = models.TextField(max_length=500, null=False)
     title = models.CharField(max_length=200, null=False)
-    addDate = models.DateTimeField('date added')
+    addDate = models.DateTimeField('date added', default=timezone.now)
     permissions = models.PositiveSmallIntegerField()
 
     # All permissions are stored in a single integer
