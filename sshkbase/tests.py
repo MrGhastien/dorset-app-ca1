@@ -29,9 +29,7 @@ def standardSetUp():
 class UserTests(TestCase):
 
     def setUp(self):
-        User.objects.create_user('epic-gamer', 'EPIC GAMER', 'gamer', 'test@example.com')
-        User.objects.create_user('normal-user2445', 'normal guy', 'secure-password', 'normal@example.com')
-        User.objects.create_superuser('testadmin', 'ADMINISTRATORATOR', 'adminadmin', 'admin@django.gov')
+        standardSetUp()
 
     def testGet(self):
         user = User.objects.get(nickname='epic-gamer')
@@ -52,30 +50,23 @@ class UserTests(TestCase):
 class SSHKeyTests(TestCase):
 
     def setUp(self) -> None:
-        User.objects.create_user('tester', "OMG TESTER", "gaming", "connard@fdp.com")
-        SSHKey.objects.create(user=User.objects.get(nickname='tester'), key='abc', title='test key 1', permissions=1)
-        SSHKey.objects.create(user=User.objects.get(nickname='tester'), key='def', title='test key 2', permissions=2)
+        standardSetUp()
 
     def testGet(self):
-        keys = SSHKey.objects.filter(user__nickname='tester')
-        self.assertEqual(keys[0].key, 'abc')
-        self.assertEqual(keys[1].key, 'def')
+        keys = SSHKey.objects.filter(user__nickname='epic-gamer')
+        self.assertEqual(keys[0].key, 'KEY ABC')
+        self.assertEqual(len(keys), 1)
 
     def testDelete(self):
-        key1 = SSHKey.objects.get(key='abc')
+        key1 = SSHKey.objects.get(key='KEY ABC')
         key1.delete()
-        self.assertRaises(SSHKey.DoesNotExist, lambda: SSHKey.objects.get(key='abc'))
+        self.assertRaises(SSHKey.DoesNotExist, lambda: SSHKey.objects.get(key='KEY ABC'))
 
 
 class BasicViewTests(TestCase):
 
     def setUp(self):
-        user1 = User.objects.create_user('epic-gamer', 'EPIC GAMER', 'gamer', 'test@example.com')
-        user2 = User.objects.create_user('normal-user2445', 'normal guy', 'secure-password', 'normal@example.com')
-        user3 = User.objects.create_superuser('testadmin', 'ADMINISTRATORATOR', 'adminadmin', 'admin@django.gov')
-        SSHKey.objects.create(user=user1, title='key1', key='KEY ABC', permissions=3)
-        SSHKey.objects.create(user=user2, title='key2', key='KEY DEF', permissions=2)
-        SSHKey.objects.create(user=user3, title='key3', key='KEY GHI', permissions=1)
+        standardSetUp()
 
     def testIndex(self):
         response = self.client.get(reverse('sshkbase:index'))
@@ -98,6 +89,10 @@ class BasicViewTests(TestCase):
         response = self.client.get(reverse('sshkbase:user-delete'))
         self.assertTemplateUsed(response, 'sshkbase/userInfo/userDelete.html')
 
+        self.client.logout()
+        response = self.client.get(reverse('sshkbase:user-delete'))
+        self.assertRedirects(response, reverse('sshkbase:index'))
+
     def testLogin(self):
         response = self.client.get(reverse('sshkbase:user-login'))
         self.assertTemplateUsed(response, 'sshkbase/userInfo/userLogin.html')
@@ -112,20 +107,36 @@ class BasicViewTests(TestCase):
         response = self.client.get(reverse('sshkbase:user-update'))
         self.assertTemplateUsed(response, 'sshkbase/userInfo/userUpdate.html')
 
+        self.client.logout()
+        response = self.client.get(reverse('sshkbase:user-delete'))
+        self.assertRedirects(response, reverse('sshkbase:index'))
+
     def testKeyList(self):
         self.client.login(nickname='normal-user2445', password='secure-password')
         response = self.client.get(reverse('sshkbase:user-keys'))
         self.assertTemplateUsed(response, 'sshkbase/userInfo/userKeys.html')
+
+        self.client.logout()
+        response = self.client.get(reverse('sshkbase:user-delete'))
+        self.assertRedirects(response, reverse('sshkbase:index'))
 
     def testPasswordUpdate(self):
         self.client.login(nickname='normal-user2445', password='secure-password')
         response = self.client.get(reverse('sshkbase:user-update-password'))
         self.assertTemplateUsed(response, 'registration/password-change.html')
 
+        self.client.logout()
+        response = self.client.get(reverse('sshkbase:user-delete'))
+        self.assertRedirects(response, reverse('sshkbase:index'))
+
     def testKeyAdd(self):
         self.client.login(nickname='normal-user2445', password='secure-password')
         response = self.client.get(reverse('sshkbase:add-key'))
         self.assertTemplateUsed(response, 'sshkbase/keyInfo/keyAdd.html')
+
+        self.client.logout()
+        response = self.client.get(reverse('sshkbase:user-delete'))
+        self.assertRedirects(response, reverse('sshkbase:index'))
 
     def testKeyDetail(self):
         self.client.login(nickname='normal-user2445', password='secure-password')
@@ -136,6 +147,10 @@ class BasicViewTests(TestCase):
         self.client.login(nickname='normal-user2445', password='secure-password')
         response = self.client.get(reverse('sshkbase:key-delete', args=(getRandom(SSHKey.objects.all()).id,)))
         self.assertTemplateUsed(response, 'sshkbase/keyInfo/keyDelete.html')
+
+        self.client.logout()
+        response = self.client.get(reverse('sshkbase:user-delete'))
+        self.assertRedirects(response, reverse('sshkbase:index'))
 
 
 class PostHandlerTests(TestCase):
