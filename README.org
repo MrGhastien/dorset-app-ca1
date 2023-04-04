@@ -1,26 +1,18 @@
 #+TITLE:SSHKBase
-#+SUBTITLE: Django app with  CRUD functions, Dorset CA 1
+#+SUBTITLE: Django app with  CRUD functions, User authentication and Unit testing, Dorset CA 3
 
 * Things stored
 This application stores Users and SSHKeys. Each SSH key is tied to a specific user. It could be used with a server hosting files, for example a git server, as a way to easily authenticate users to upload
 and get files securely.
 
-The account system has been implemented ! You can have a unique nickname and a name you can change later if you want. You also need to provide your email address in case you forget your password.
+Unit tests are present for each view, wether they handle POST requests or not. The coverage is nearly 100% for views, and around 85% for models and forms. Tests are also present to tests models.
 
-The tutorials on [[learndjango.com]] were very helpful by detailing all things that must be done to have a complete authentication system.
-However, my app had a small problem : I created my own user model, and the Django's authentication system uses their default one. So I had to tell django to replace its user model by mine. 
-The Django documentation is very detailled and complete, so this was not too complicated.
+Each unit tests tries tests the views without having a user authenticated, then logs a normal user in, and finally logs in with an administrator.
 
-I also thought my HTML templates were very messy, so I used Django's template inheritance system to create base templates, which can then be overriden to make subequent templates a lot shorter and tidier.
+There are 4 test cases :
+- ~UserTests~ : These tests check if the User model works correctly. It checks creation, reading, updating and deletion.
+- ~SSHKeyTests~ : Same as ~UserTests~, but checks ssh keys.
+- ~BasicViewTests~ : Tests views which only render Django templates. They don't modify the database, they only read from it.
+  These tests use the views without loging in, logging in as a normal user and as an administrator.
+- ~PostHandlerTests~ : Check views which handle POST request, meaning they change the database in some way. Same as basic views, all three possible user types are tested.
 
-* Docs and comments
-There are comments inside :
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/ca1/settings.py][ca1/settings.py]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/ca1/settings.py#L68-L69][68]]
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/models.py][sshkbase/models.py]], lines [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/models.py#L7-L8][7]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/models.py#L24-L27][24]]
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/filters.py][sshkbase/filters.py]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/filters.py#L6-L7][8]]
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/urls.py][sshkbase/urls.py]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/urls.py#L9-L12][9]]
-+ [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py][sshkbase/views.py]], lines [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L34-L37][34]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L113-L143][113]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L146-L156][147]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L159-L160][159]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/sshkbase/views.py#L168][168]]
-+ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/index.html][templates/sshkbase/index.html]], lines [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L16-L18][16]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L33-L34][33]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L37-L38][37]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L42-L43][42]], [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/index.html#L50-L54][50]]
-+ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/userAdd.html][templates/sshkbase/userAdd.html]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/userAdd.html#L29-L34][29]]
-+ [[https://github.com/MrGhastien/dorset-app-ca1/tree/main/templates/sshkbase/keyDetail.html][templates/sshkbase/keyDetail.html]], line [[https://github.com/MrGhastien/dorset-app-ca1/blob/main/templates/sshkbase/keyDetail.html#L8-L9][8]]
-Click on line numbers to send you to the exact lines on Github !

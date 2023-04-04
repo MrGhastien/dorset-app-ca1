@@ -402,7 +402,6 @@ def updateKey(request, keyId):
 
 def deleteKey(request, keyId):
     sshkey = get_object_or_404(SSHKey, pk=keyId)
-    userNickname = sshkey.user.nickname
     sshkey.delete()
     print("Deleted key #" + str(keyId))
     return HttpResponseRedirect(reverse('sshkbase:user-keys'))

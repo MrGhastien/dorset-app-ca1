@@ -1,9 +1,13 @@
+import os
 import random
 
 from django.contrib import auth
 from django.test import TestCase
+from django.urls import reverse
+
 from .models import *
-from django.urls import reverse, reverse_lazy
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'django-ca.settings_test'
 
 rand = random.Random()
 
