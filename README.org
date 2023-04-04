@@ -5,7 +5,7 @@
 This application stores Users and SSHKeys. Each SSH key is tied to a specific user. It could be used with a server hosting files, for example a git server, as a way to easily authenticate users to upload
 and get files securely.
 
-Unit tests are present for each view, wether they handle POST requests or not. The coverage is nearly 100% for views, and around 85% for models and forms. Tests are also present to tests models.
+Unit tests are present for each view, wether they handle POST requests or not. The coverage is nearly 95% for views, and around 85% for models and forms. Tests are also present to tests models.
 
 Each unit tests tries tests the views without having a user authenticated, then logs a normal user in, and finally logs in with an administrator.
 
